@@ -39,6 +39,33 @@ rex -C CLIENT do client.theme.import path="$PWD/themes/Stillwater"
 
 Importing also selects the theme, so note your current one first. To switch back, use **Change Theme…** in the command palette.
 
+### Neovim
+
+Stillwater is also a Neovim colorscheme, and this repo is the plugin. With [lazy.nvim](https://github.com/folke/lazy.nvim):
+
+```lua
+{
+  "heath0xFF/stillwater",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    vim.cmd.colorscheme("stillwater")
+  end,
+}
+```
+
+For [lualine](https://github.com/nvim-lualine/lualine.nvim), set `theme = "stillwater"`. Two options are available, both off by default. Call `setup` before setting the colorscheme:
+
+```lua
+require("stillwater").setup({ italic_comments = true, transparent = true })
+```
+
+![Stillwater in Neovim, with diagnostics, search, and a hover window](docs/neovim.png)
+
+It covers Tree-sitter, LSP, diagnostics, and diffs, along with these plugins: blink.cmp, flash, gitsigns, indent-blankline, lazy, lualine, mason, neo-tree, noice, nvim-cmp, nvim-notify, nvim-tree, oil, telescope, trouble, which-key, and zen-mode.
+
+![A side-by-side diff in Stillwater](docs/neovim-diff.png)
+
 ## Palette
 
 | Role | Hex | | ANSI | Normal | Bright |
@@ -86,14 +113,14 @@ Open `index.html` in a browser for live specimens, every swatch, the full contra
 
 ## Development
 
-`palette.js` is the source of truth. `themes/Stillwater` is generated from it, so don't edit that file by hand. Keep the default colors in `guide.css` in sync; the tests check them.
+`palette.js` is the source of truth. `themes/Stillwater` and `lua/stillwater/palette.lua` are generated from it, so don't edit those files by hand. Neovim highlight groups live in `lua/stillwater/highlights.lua`. Keep the default colors in `guide.css` in sync; the tests check them.
 
 ```sh
-node scripts/export-themes.cjs      # regenerate the theme file
-node --test tests/palette.test.cjs  # needs Node.js 18 or later
+node scripts/export-themes.cjs  # regenerate the theme files
+node --test tests/*.test.cjs    # needs Node.js 18 or later
 ```
 
-The tests reject stale exports, contrast regressions, flattened accent lightness, and accents that merge under simulated color-vision deficiency.
+The tests reject stale exports, contrast regressions, flattened accent lightness, and accents that merge under simulated color-vision deficiency. If `nvim` is installed, they also load the colorscheme headlessly and check the contrast of its resolved highlights.
 
 Optional browser checks use Playwright and an installed Chromium-based browser. They default to Google Chrome on macOS; set `CHROME_PATH` for another.
 

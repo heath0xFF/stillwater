@@ -164,7 +164,7 @@ lrwxr-xr-x  <span class="cyan">latest</span> -&gt; dist/v2
 
     <section id="import" aria-labelledby="import-heading">
       <h2 id="import-heading">Install Stillwater</h2>
-      <p>The theme file uses Ghostty’s format and sets terminal colors only. It leaves fonts, opacity, and key bindings alone.</p>
+      <p>The theme file uses Ghostty’s format and sets terminal colors only. It leaves fonts, opacity, and key bindings alone. Neovim gets its own colorscheme, since editors can ignore the terminal palette.</p>
       <div class="downloads">
         <a class="download" href="themes/Stillwater" download="Stillwater">Save Stillwater <span>Ghostty theme file</span></a>
       </div>
@@ -172,6 +172,16 @@ lrwxr-xr-x  <span class="cyan">latest</span> -&gt; dist/v2
       <p>Copy the file into your themes folder, then add <code>theme = Stillwater</code> to your Ghostty config.</p>
       <pre class="commands" tabindex="0" aria-label="Ghostty install commands"><code>mkdir -p ~/.config/ghostty/themes
 cp themes/Stillwater ~/.config/ghostty/themes/</code></pre>
+      <h3>Neovim</h3>
+      <p>This repo is also a Neovim plugin. With lazy.nvim, add this spec. For lualine, set <code>theme = "stillwater"</code>.</p>
+      <pre class="commands" tabindex="0" aria-label="Neovim install spec"><code>{
+  "heath0xFF/stillwater",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    vim.cmd.colorscheme("stillwater")
+  end,
+}</code></pre>
       <h3>Rex</h3>
       <p>Find your app’s label with <code>rex client ls</code>, then run this from the project directory. <strong>Importing also selects the theme,</strong> so note your current one first. To switch back, use <strong>Change Theme…</strong> in the command palette.</p>
       <pre class="commands" tabindex="0" aria-label="Rex import command"><code>rex -C CLIENT do client.theme.import path="$PWD/themes/Stillwater"</code></pre>

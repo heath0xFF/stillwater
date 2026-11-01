@@ -1,4 +1,4 @@
-/* Shared by the offline guide, theme exporter, and validation tests. */
+/* Source of truth, shared by the offline guide, theme exporters, and tests. */
 (function () {
   "use strict";
 
@@ -136,7 +136,48 @@
     ].join("\n");
   }
 
-  const api = { palette, references, ansiNames, contrast, oklch, separation, fade, serialize };
+  // Editor colors: the palette by name, plus backgrounds derived from it.
+  function neovimColors(p) {
+    const names = ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"];
+    const colors = {
+      bg: p.background,
+      fg: p.foreground,
+      surface: p.surface,
+      selection: p["selection-background"],
+      selection_fg: p["selection-foreground"],
+      cursor: p["cursor-color"],
+      cursor_text: p["cursor-text"],
+      comment: p.ansi[8],
+      cursor_line: fade(p.surface, p.background, 0.5),
+      line_nr: fade(p.ansi[8], p.background, 0.7),
+      non_text: fade(p.ansi[8], p.background, 0.3),
+      diff_add: fade(p.ansi[2], p.background, 0.16),
+      diff_change: fade(p.ansi[4], p.background, 0.16),
+      diff_delete: fade(p.ansi[1], p.background, 0.16),
+      diff_text: fade(p.ansi[4], p.background, 0.32),
+    };
+    names.forEach((name, index) => {
+      colors[name] = p.ansi[index];
+      colors[`bright_${name}`] = p.ansi[index + 8];
+    });
+    return colors;
+  }
+
+  function serializeNeovim(p) {
+    const colors = neovimColors(p);
+    return [
+      "-- Generated from palette.js. Run node scripts/export-themes.cjs to update.",
+      "return {",
+      ...Object.keys(colors).sort().map((key) => `  ${key} = "${colors[key]}",`),
+      "  ansi = {",
+      ...p.ansi.map((color) => `    "${color}",`),
+      "  },",
+      "}",
+      "",
+    ].join("\n");
+  }
+
+  const api = { palette, references, ansiNames, contrast, oklch, separation, fade, serialize, neovimColors, serializeNeovim };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else globalThis.Stillwater = api;
 })();
