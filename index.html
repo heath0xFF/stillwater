@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Stillwater: a quiet terminal theme blending Nord and Dracula. See it at work, check its contrast, and get the theme file.">
+  <title>Stillwater — a quiet terminal palette</title>
+  <link rel="stylesheet" href="guide.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to guide</a>
+  <aside class="rail">
+    <a class="wordmark" href="#main">Stillwater<span class="waterline" aria-hidden="true"></span></a>
+    <p class="rail-description">A quiet palette<br>for long sessions.</p>
+    <nav aria-label="Guide sections">
+      <a href="#preview">Live specimen</a>
+      <a href="#palette">The palette</a>
+      <a href="#contrast">Readability</a>
+      <a href="#compare">Between its parents</a>
+      <a href="#import">Install</a>
+    </nav>
+  </aside>
+
+  <main id="main">
+    <header class="intro">
+      <h1>Stillwater</h1>
+      <p class="lead">Deeper surfaces. Richer color. Room to think.</p>
+      <p>An indigo-slate ground, darker than Nord or Dracula, with periwinkle, orchid, and frost accents at different depths. Made for coding, terminals, and agent sessions, with one loud thing on screen: the cursor.</p>
+    </header>
+
+    <section id="preview" aria-labelledby="preview-heading">
+      <div class="section-heading">
+        <h2 id="preview-heading">See it at work</h2>
+        <span class="meta">Illustrative output</span>
+      </div>
+      <div class="terminal themed" id="specimen">
+        <div class="terminal-toolbar">
+          <div class="view-picker" role="group" aria-label="Specimen view">
+            <button type="button" data-view="terminal" aria-pressed="true">Terminal</button>
+            <button type="button" data-view="agent" aria-pressed="false">Agent session</button>
+            <button type="button" data-view="stress" aria-pressed="false">Hard cases</button>
+          </div>
+          <span id="specimen-label">Stillwater</span>
+        </div>
+        <div class="terminal-body" id="terminal-view" tabindex="0" role="region" aria-label="Terminal color specimen">
+<pre><span class="comment"># A small change, with the context left intact.</span>
+<span class="cyan">~/work/harbor</span> <span class="purple">main</span> <span class="comment">$</span> git diff --stat
+ src/cache.ts   | 8 ++++++--
+ test/cache.ts  | 6 ++++++
+
+<span class="cyan">~/work/harbor</span> <span class="purple">main</span> <span class="comment">$</span> git diff
+<span class="blue">@@ -12,3 +12,3 @@</span>
+<span class="red">- const ttl = options.ttl || 300;</span>
+<span class="green">+ const ttl = options.ttl ?? 300;</span>
+<span class="comment">  // Keep an explicit zero so callers can bypass the cache.</span>
+
+<span class="cyan">~/work/harbor</span> <span class="purple">main</span> <span class="comment">$</span> npm test
+<span class="green">PASS</span>  explicit zero bypasses the cache
+<span class="green">PASS</span>  missing ttl uses the default
+<span class="yellow">WARN</span>  integration suite not run · no test database
+<span class="comment">2 passed · 0 failed</span>
+
+<span class="cyan">~/work/harbor</span> <span class="purple">main</span> <span class="comment">$</span> <span class="selection">git status --short</span> <span class="cursor"> </span></pre>
+        </div>
+        <div class="terminal-body" id="agent-view" tabindex="0" role="region" aria-label="Agent session color specimen">
+<pre><span class="purple">you</span>  Let ttl: 0 bypass the cache. Keep the default.
+
+<span class="cyan">agent</span>  I’ll check the caller and add a regression test.
+
+<span class="blue">read</span>   src/cache.ts <span class="comment">lines 1–42</span>
+<span class="blue">edit</span>   src/cache.ts
+<span class="red">− const ttl = options.ttl || 300;</span>
+<span class="green">+ const ttl = options.ttl ?? 300;</span>
+
+<span class="comment">// Keep an explicit zero so callers can bypass the cache.</span>
+<span class="purple">const</span> ttl = options.ttl ?? <span class="yellow">300</span>;
+<span class="purple">if</span> (ttl === <span class="yellow">0</span>) <span class="purple">return</span> <span class="blue">fetchFresh</span>();
+
+<span class="blue">run</span>    npm test
+<span class="green">PASS</span>   zero bypasses cache; missing ttl uses 300
+
+<span class="cyan">agent</span>  Updated the fallback and added the test.
+       <span class="yellow">Not checked:</span> database integration.
+       <span class="comment">No commit or deployment was made.</span>
+
+<span class="purple">you</span>  <span class="cursor"> </span></pre>
+        </div>
+        <div class="terminal-body" id="stress-view" tabindex="0" role="region" aria-label="Hard color cases specimen">
+<pre><span class="cyan">~/work/harbor</span> <span class="purple">main</span> <span class="comment">$</span> ls -l
+drwxr-xr-x  <span class="blue">src/</span>
+lrwxr-xr-x  <span class="cyan">latest</span> -&gt; dist/v2
+-rwxr-xr-x  <span class="green">deploy.sh</span>
+-rw-r--r--  <span class="red">harbor.tar.gz</span>
+-rw-r--r--  <span class="purple">cover.png</span>
+-rw-r--r--  README.md
+
+<span class="comment"># Reverse-video badges</span>
+<span class="on-green"> PASS </span> <span class="on-red"> FAIL </span> <span class="on-yellow"> WARN </span> <span class="on-blue"> INFO </span> <span class="on-purple"> NOTE </span> <span class="on-cyan"> DONE </span>
+
+<span class="comment"># Accents on a raised status bar</span>
+<span class="bar"> <span class="blue">NORMAL</span>  <span class="purple">main</span>  <span class="green">+3</span> <span class="red">-1</span>  <span class="comment">src/cache.ts</span>  <span class="yellow">1 warning</span>  <span class="cyan">ts</span> </span>
+
+<span class="comment"># Normal and bright, one step apart</span>
+<span class="red">red</span> <span class="bright-red">bright red</span>  <span class="green">green</span> <span class="bright-green">bright green</span>  <span class="yellow">yellow</span> <span class="bright-yellow">bright yellow</span>
+<span class="blue">blue</span> <span class="bright-blue">bright blue</span>  <span class="purple">magenta</span> <span class="bright-purple">bright magenta</span>  <span class="cyan">cyan</span> <span class="bright-cyan">bright cyan</span>
+
+<span class="comment"># Dim text, shown at 50% opacity</span>
+<span class="dim">Thinking… 12s · esc to interrupt</span>
+
+<span class="comment"># Selection and cursor over code</span>
+<span class="purple">const</span> <span class="selection">ttl = options.ttl ?? 300;</span> <span class="cursor"> </span></pre>
+        </div>
+      </div>
+      <p class="caption">Line height is close to a real terminal’s. On narrow screens, scroll the code sideways to read long lines.</p>
+      <noscript><p>JavaScript is off. The theme file and install notes still work; enable JavaScript for swatches, contrast checks, and specimen tabs.</p></noscript>
+    </section>
+
+    <section id="palette" aria-labelledby="palette-heading">
+      <div class="section-heading"><h2 id="palette-heading">A place for every color</h2><span class="meta" id="palette-label">Nord × Dracula</span></div>
+      <div class="rationale">
+        <p><strong>The room is shared.</strong> The ground is darker than either parent, with their low chroma and a hue between them. Soft white text stays clear of pure white glare.</p>
+        <p><strong>The color is borrowed.</strong> ANSI blue turns periwinkle and magenta turns orchid, the same move Dracula makes, with about a fifth less chroma. Cyan stays close to Nord’s frost.</p>
+        <p><strong>Depth does the sorting.</strong> Accents sit at different lightness levels, so they stay apart when hue is hard to see. The orchid cursor is the one thing meant to stand out.</p>
+      </div>
+      <h3>Surfaces &amp; text</h3>
+      <div class="role-swatches" id="role-swatches"></div>
+      <h3>All 16 ANSI colors</h3>
+      <p class="caption">Normal colors 0–7; bright colors 8–15. Each sample includes its index and exact hex value. “Bright black” doubles as the suggested comment color.</p>
+      <div class="ansi-swatches" id="ansi-swatches"></div>
+      <p class="note">A terminal palette supplies colors, not syntax rules. To get these comments in an editor or agent, select ANSI 8 or set its comment color to <code id="comment-color">#9da5bf</code>. Explicit truecolor output can ignore the palette.</p>
+    </section>
+
+    <section id="contrast" aria-labelledby="contrast-heading">
+      <h2 id="contrast-heading">Quiet does not mean faint</h2>
+      <p>These checks use WCAG’s sRGB relative luminance formula. <strong>4.5:1</strong> is the reference for normal text; <strong>7:1</strong> is the enhanced threshold. Results use opaque colors, not a transparent terminal window.</p>
+      <div id="contrast-summary" class="contrast-summary"></div>
+      <details>
+        <summary>Inspect all 16 ANSI contrast ratios</summary>
+        <table>
+          <caption>ANSI foreground against the main background <code id="contrast-ground">#1f222e</code></caption>
+          <thead><tr><th scope="col">ANSI color</th><th scope="col">Ratio</th><th scope="col">Normal text</th></tr></thead>
+          <tbody id="contrast-rows"></tbody>
+        </table>
+      </details>
+      <h3>Colors that stay apart</h3>
+      <p>Contrast only compares a color with its background. This table compares accents with each other, in normal vision and in simulated color-vision deficiency.</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Accent separation table">
+        <table>
+          <caption>OKLab distance × 100. “Close” marks anything under 5, a rule of thumb rather than a standard.</caption>
+          <thead><tr><th scope="col">Pair</th><th scope="col">Normal</th><th scope="col">Deuteranopia</th><th scope="col">Protanopia</th><th scope="col">Tritanopia</th></tr></thead>
+          <tbody id="separation-rows"></tbody>
+        </table>
+      </div>
+      <p class="note"><strong>Known limits.</strong> ANSI 0 is a surface color, not readable text on this background. Green and yellow stay close under protanopia. Dim text falls below 4.5:1 because the terminal fades it, and no comment color can fix that while staying quieter than body text; the 50% figure is an estimate, and terminals differ. A passing ratio does not prove comfort over a long session.</p>
+    </section>
+
+    <section id="compare" aria-labelledby="compare-heading">
+      <h2 id="compare-heading">Between its parents</h2>
+      <p>The same code on Nord, Stillwater, and Dracula, each on its own ground. A real blend should read as related to both and be mistaken for neither.</p>
+      <div class="comparison" id="comparison"></div>
+      <p class="caption">Parent values come from the Nord and Dracula themes bundled with Ghostty. Lightness and chroma are OKLCH.</p>
+    </section>
+
+    <section id="import" aria-labelledby="import-heading">
+      <h2 id="import-heading">Install Stillwater</h2>
+      <p>The theme file uses Ghostty’s format and sets terminal colors only. It leaves fonts, opacity, and key bindings alone.</p>
+      <div class="downloads">
+        <a class="download" href="themes/Stillwater" download="Stillwater">Save Stillwater <span>Ghostty theme file</span></a>
+      </div>
+      <h3>Ghostty</h3>
+      <p>Copy the file into your themes folder, then add <code>theme = Stillwater</code> to your Ghostty config.</p>
+      <pre class="commands" tabindex="0" aria-label="Ghostty install commands"><code>mkdir -p ~/.config/ghostty/themes
+cp themes/Stillwater ~/.config/ghostty/themes/</code></pre>
+      <h3>Rex</h3>
+      <p>Find your app’s label with <code>rex client ls</code>, then run this from the project directory. <strong>Importing also selects the theme,</strong> so note your current one first. To switch back, use <strong>Change Theme…</strong> in the command palette.</p>
+      <pre class="commands" tabindex="0" aria-label="Rex import command"><code>rex -C CLIENT do client.theme.import path="$PWD/themes/Stillwater"</code></pre>
+      <p class="note">This guide is an HTML approximation of a terminal. Editor themes, agent truecolor output, font rendering, and app chrome can differ.</p>
+    </section>
+
+    <footer>
+      <p>Stillwater · Built to stay out of the way.</p>
+      <p>Palette references: <a href="https://www.nordtheme.com/docs/colors-and-palettes">Nord</a> and <a href="https://draculatheme.com/contribute">Dracula</a>. External links need a connection; this guide does not. See <a href="README.md">README.md</a> for tests and file details.</p>
+    </footer>
+  </main>
+  <!-- Keep scripts after the content because inline previews do not honor defer. -->
+  <script src="palette.js"></script>
+  <script src="guide.js"></script>
+</body>
+</html>

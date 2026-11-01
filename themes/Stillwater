@@ -1,0 +1,25 @@
+# Stillwater — Nord × Dracula
+# Generated from palette.js. Run node scripts/export-themes.cjs to update.
+# ANSI 8 is the comment color; applications must choose to use it.
+background = #1f222e
+foreground = #dfe3ed
+cursor-color = #ec8ac7
+cursor-text = #1f222e
+selection-background = #464d66
+selection-foreground = #eef0f6
+palette = 0=#2b303f
+palette = 1=#ec7368
+palette = 2=#70d689
+palette = 3=#eec96e
+palette = 4=#8994e5
+palette = 5=#ec8ac7
+palette = 6=#74cde2
+palette = 7=#d5d9e4
+palette = 8=#9da5bf
+palette = 9=#f38a7f
+palette = 10=#89de9c
+palette = 11=#f6da8e
+palette = 12=#a2a9ee
+palette = 13=#f5a3d4
+palette = 14=#95dded
+palette = 15=#eef0f6
