@@ -164,7 +164,7 @@ lrwxr-xr-x  <span class="cyan">latest</span> -&gt; dist/v2
 
     <section id="import" aria-labelledby="import-heading">
       <h2 id="import-heading">Install Stillwater</h2>
-      <p>The theme file uses Ghostty’s format and sets terminal colors only. It leaves fonts, opacity, and key bindings alone. Neovim gets its own colorscheme, since editors can ignore the terminal palette.</p>
+      <p>The theme file uses Ghostty’s format and sets terminal colors only. It leaves fonts, opacity, and key bindings alone. Neovim gets its own colorscheme. Orca gets a plugin for its interface, editor, and terminals.</p>
       <div class="downloads">
         <a class="download" href="themes/Stillwater" download="Stillwater">Save Stillwater <span>Ghostty theme file</span></a>
       </div>
@@ -172,6 +172,12 @@ lrwxr-xr-x  <span class="cyan">latest</span> -&gt; dist/v2
       <p>Copy the file into your themes folder, then add <code>theme = Stillwater</code> to your Ghostty config.</p>
       <pre class="commands" tabindex="0" aria-label="Ghostty install commands"><code>mkdir -p ~/.config/ghostty/themes
 cp themes/Stillwater ~/.config/ghostty/themes/</code></pre>
+      <h3>Orca</h3>
+      <p>Requires Orca 1.4.246 or later. Clone or download the whole repo, then run these commands from its directory. The plugin supplies colors only; it runs no code.</p>
+      <pre class="commands" tabindex="0" aria-label="Orca plugin commands"><code>orca plugin validate . --json
+orca plugin dev load "$PWD" --json</code></pre>
+      <p>If needed, turn on plugins in <strong>Settings → Plugins</strong>. Note your current themes, then select <strong>Stillwater</strong> under <strong>Appearance → Dark theme</strong> and <strong>Terminal → Dark Theme</strong>. Use Dark mode. If you use a separate dark editor theme, select Stillwater there too. Keep this repo at its current path while loaded.</p>
+      <p>For terminal colors only, use <strong>Terminal → Import from Ghostty → Choose File</strong> and select <code>themes/Stillwater</code>. Review the preview before applying. The editor uses an orchid selection tint, not the terminal’s exact selection colors. See <a href="README.md#orca">the Orca notes</a> for removal and other limits.</p>
       <h3>Neovim</h3>
       <p>This repo is also a Neovim plugin. With lazy.nvim, add this spec. For lualine, set <code>theme = "stillwater"</code>.</p>
       <pre class="commands" tabindex="0" aria-label="Neovim install spec"><code>{

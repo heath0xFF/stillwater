@@ -1,0 +1,29 @@
+{
+  "manifestVersion": 2,
+  "id": "stillwater",
+  "name": "Stillwater",
+  "version": "0.1.0",
+  "description": "A quiet, dark theme for Orca's interface, code editor, and terminals. Blended from Nord and Dracula.",
+  "repository": "https://github.com/heath0xFF/stillwater",
+  "license": "MIT",
+  "engines": {
+    "orca": ">=1.4.246"
+  },
+  "execution": "data",
+  "contributes": {
+    "themes": [
+      {
+        "id": "stillwater-dark",
+        "title": "Stillwater",
+        "path": "themes/orca/stillwater-app.json"
+      }
+    ],
+    "terminalThemes": [
+      {
+        "id": "stillwater-dark",
+        "title": "Stillwater",
+        "path": "themes/orca/stillwater-terminal.json"
+      }
+    ]
+  }
+}

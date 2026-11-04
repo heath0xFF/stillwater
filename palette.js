@@ -177,7 +177,98 @@
     ].join("\n");
   }
 
-  const api = { palette, references, ansiNames, contrast, oklch, separation, fade, serialize, neovimColors, serializeNeovim };
+  function serializeOrcaTerminal(p) {
+    const names = [
+      "black", "red", "green", "yellow", "blue", "magenta", "cyan", "white",
+      "brightBlack", "brightRed", "brightGreen", "brightYellow", "brightBlue", "brightMagenta", "brightCyan", "brightWhite",
+    ];
+    return JSON.stringify({
+      schemaVersion: 1,
+      mode: "dark",
+      terminal: {
+        background: p.background,
+        foreground: p.foreground,
+        cursor: p["cursor-color"],
+        cursorAccent: p["cursor-text"],
+        selectionBackground: p["selection-background"],
+        selectionForeground: p["selection-foreground"],
+        ...Object.fromEntries(names.map((name, index) => [name, p.ansi[index]])),
+      },
+    }, null, 2) + "\n";
+  }
+
+  function serializeOrcaApp(p) {
+    const c = neovimColors(p);
+    return JSON.stringify({
+      schemaVersion: 1,
+      base: "dark",
+      tokens: {
+        "--background": c.bg,
+        "--foreground": c.fg,
+        "--card": c.surface,
+        "--primary": c.cyan,
+        "--primary-foreground": c.bg,
+        "--secondary": c.surface,
+        "--muted": c.surface,
+        "--muted-foreground": c.comment,
+        "--accent": c.selection,
+        "--border": c.selection,
+        // Orca uses the ring for both the editor cursor and its selection tint.
+        "--ring": c.cursor,
+        "--sidebar": c.surface,
+        "--sidebar-accent": c.selection,
+        "--sidebar-accent-foreground": c.selection_fg,
+        "--sidebar-ring": c.cyan,
+        "--worktree-sidebar-active": c.selection,
+        "--worktree-sidebar-active-border": c.cyan,
+        "--tab-bar": c.bg,
+        "--tab-active": c.surface,
+        "--tab-active-indicator": c.cyan,
+        "--tab-inactive": c.bg,
+        "--split-divider": c.selection,
+        "--split-divider-hover": c.cyan,
+        "--chat-user-message": c.surface,
+        "--text-link": c.cyan,
+        "--diff-added": c.green,
+        "--diff-removed": c.red,
+        "--git-decoration-added": c.green,
+        "--git-decoration-modified": c.yellow,
+        "--git-decoration-deleted": c.red,
+        "--git-decoration-renamed": c.blue,
+        "--git-decoration-untracked": c.cyan,
+        "--git-decoration-copied": c.magenta,
+        "--git-decoration-ignored": c.comment,
+      },
+      tokenColors: [
+        { scope: "comment", settings: { foreground: c.comment } },
+        { scope: "string", settings: { foreground: c.green } },
+        { scope: ["constant", "variable.other.constant"], settings: { foreground: c.yellow } },
+        { scope: ["keyword", "storage"], settings: { foreground: c.magenta } },
+        { scope: "keyword.operator", settings: { foreground: c.white } },
+        { scope: ["entity.name.function", "support.function"], settings: { foreground: c.blue } },
+        { scope: ["entity.name.type", "entity.name.class", "support.type", "support.class"], settings: { foreground: c.cyan } },
+        { scope: "variable", settings: { foreground: c.fg } },
+        { scope: "variable.language", settings: { foreground: c.magenta } },
+        { scope: "punctuation", settings: { foreground: c.white } },
+        { scope: "entity.name.tag", settings: { foreground: c.magenta } },
+        { scope: "entity.other.attribute-name", settings: { foreground: c.cyan } },
+        { scope: "constant.character.escape", settings: { foreground: c.cyan } },
+        { scope: "markup.heading", settings: { foreground: c.magenta, fontStyle: "bold" } },
+        { scope: "markup.bold", settings: { fontStyle: "bold" } },
+        { scope: "markup.italic", settings: { fontStyle: "italic" } },
+        { scope: "markup.underline.link", settings: { foreground: c.cyan, fontStyle: "underline" } },
+        { scope: "markup.inline.raw", settings: { foreground: c.green } },
+        { scope: "markup.inserted", settings: { foreground: c.green } },
+        { scope: ["markup.deleted", "invalid"], settings: { foreground: c.red } },
+        { scope: "markup.changed", settings: { foreground: c.yellow } },
+      ],
+    }, null, 2) + "\n";
+  }
+
+  const api = {
+    palette, references, ansiNames, contrast, oklch, separation, fade, serialize,
+    neovimColors, serializeNeovim, serializeOrcaTerminal, serializeOrcaApp,
+  };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else globalThis.Stillwater = api;
 })();

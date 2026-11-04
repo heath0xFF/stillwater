@@ -1,6 +1,6 @@
 # Stillwater
 
-A quiet, dark terminal theme for long sessions, blended from [Nord](https://www.nordtheme.com/) and [Dracula](https://draculatheme.com/).
+A quiet, dark theme for terminals, Neovim, and Orca, made for long sessions and blended from [Nord](https://www.nordtheme.com/) and [Dracula](https://draculatheme.com/).
 
 ![Stillwater showing a git diff and test output](docs/terminal.png)
 
@@ -14,7 +14,7 @@ A quiet, dark terminal theme for long sessions, blended from [Nord](https://www.
 
 ## Install
 
-The theme is one [Ghostty-format](https://ghostty.org/docs/features/theme) file, [`themes/Stillwater`](themes/Stillwater). It sets terminal colors only and leaves fonts, opacity, and key bindings alone.
+Ghostty and Rex use one [Ghostty-format](https://ghostty.org/docs/features/theme) file, [`themes/Stillwater`](themes/Stillwater). Neovim and Orca use the plugins in this repo. These themes leave fonts, opacity, and key bindings alone.
 
 ### Ghostty
 
@@ -38,6 +38,33 @@ rex -C CLIENT do client.theme.import path="$PWD/themes/Stillwater"
 ```
 
 Importing also selects the theme, so note your current one first. To switch back, use **Change Theme…** in the command palette.
+
+### Orca
+
+Requires Orca **1.4.246 or later**. This repo is a data-only plugin: it supplies app, editor, and terminal colors, with no executable code or capabilities.
+
+Clone or download the whole repo. From its directory, run:
+
+```sh
+orca plugin validate . --json
+orca plugin dev load "$PWD" --json
+```
+
+If plugins are off, turn them on in **Settings → Plugins** first. Keep the repo at this path while it is loaded. Note your current app and terminal themes before switching:
+
+1. Under **Settings → Appearance**, select **Stillwater** as the **Dark theme**, and use Dark mode to see it.
+2. If you selected a separate dark editor theme, set it to **Stillwater** too.
+3. Under **Settings → Terminal**, select **Stillwater** as the **Dark Theme**.
+
+To remove the development plugin, first select your previous themes, then run `orca plugin dev unload "$PWD" --json` from the repo directory.
+
+For terminal colors only, no plugin is needed: use **Settings → Terminal → Import from Ghostty → Choose File**, select `themes/Stillwater`, review the preview, then apply. This imports color overrides, not a named plugin theme.
+
+Orca limits:
+
+- The editor cursor and focus ring share orchid. Editor selection is an orchid tint; it cannot use the terminal's exact selection colors.
+- Sidebar and chat settings that match the terminal can override app-theme colors. Trust dialogs keep Orca's own colors.
+- Syntax uses Orca's supported TextMate scopes. It is not a full VS Code or Neovim highlight-group import.
 
 ### Neovim
 
@@ -113,14 +140,16 @@ Open `index.html` in a browser for live specimens, every swatch, the full contra
 
 ## Development
 
-`palette.js` is the source of truth. `themes/Stillwater` and `lua/stillwater/palette.lua` are generated from it, so don't edit those files by hand. Neovim highlight groups live in `lua/stillwater/highlights.lua`. Keep the default colors in `guide.css` in sync; the tests check them.
+`palette.js` is the source of truth. `themes/Stillwater`, `themes/orca/*.json`, and `lua/stillwater/palette.lua` are generated from it, so don't edit those files by hand. Neovim highlight groups live in `lua/stillwater/highlights.lua`. Keep the default colors in `guide.css` in sync; the tests check them.
 
 ```sh
 node scripts/export-themes.cjs  # regenerate the theme files
 node --test tests/*.test.cjs    # needs Node.js 18 or later
 ```
 
-The tests reject stale exports, contrast regressions, flattened accent lightness, and accents that merge under simulated color-vision deficiency. If `nvim` is installed, they also load the colorscheme headlessly and check the contrast of its resolved highlights.
+The tests reject stale exports, contrast regressions, flattened accent lightness, and accents that merge under simulated color-vision deficiency. Orca tests also check all 22 terminal colors, app text and focus pairs, selection and diff tints, and syntax roles. If `nvim` is installed, they also load the colorscheme headlessly and check the contrast of its resolved highlights.
+
+With Orca installed, also run `orca plugin validate . --json` and `orca plugin inspect . --json`. These check the plugin without loading it or changing your theme. Before release, check the app, editor, terminal, menus, selections, and diffs in Orca; schema and contrast checks do not prove the rendered result.
 
 Optional browser checks use Playwright and an installed Chromium-based browser. They default to Google Chrome on macOS; set `CHROME_PATH` for another.
 

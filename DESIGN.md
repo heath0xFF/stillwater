@@ -109,6 +109,12 @@ The complete terminal palette, including selection and cursor pairs and every AN
 
 **The Depth Rule.** Keep at least 0.15 of OKLCH lightness between the lightest and darkest of ANSI 1–6, and test separation under simulated color-vision deficiency. Hue alone does not keep accents apart.
 
+## Orca
+
+The Orca plugin extends the same palette to app surfaces and code. The canvas stays indigo-slate; cards, menus, and sidebars use the raised surface. Cyan identifies primary actions, links, and sidebar focus. Orchid marks the editor cursor and app focus rings because Orca links those two roles. Editor selection is Orca's 30% orchid tint, not the terminal's opaque selection color. Active controls and menu rows use the selection slate so they remain distinct from panel and control backgrounds. Orca also uses this accent for the editor's current-line fill.
+
+Syntax follows the Neovim roles: comments use ANSI 8, strings mint, constants sand, keywords orchid, functions periwinkle, and types frost. Diff and Git colors retain the palette's semantic roles. The plugin changes colors only, with no fonts, layout, background image, or executable code. All exported values come from `palette.js`.
+
 ## Typography
 
 System sans is the reading face and heading face. System monospace is reserved for code, hex values, paths, and contrast ratios. This keeps all fonts local.
