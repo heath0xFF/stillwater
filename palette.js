@@ -177,6 +177,77 @@
     ].join("\n");
   }
 
+  function serializeTern(p) {
+    const c = neovimColors(p);
+    const colors = {
+      "tv-bg": c.bg,
+      "tv-fg": c.fg,
+      "tv-cur": c.cursor,
+      "tv-cur-ink": c.cursor_text,
+      "tv-sel": c.selection,
+      "tv-sel-a": c.selection,
+      "tv-sel-b": c.selection,
+      page: c.bg,
+      panel: c.bg,
+      card: c.surface,
+      raise: c.surface,
+      "pop-bg": c.surface,
+      "code-bg": c.bg,
+      "tbl-head": c.surface,
+      ink: c.fg,
+      t1: c.fg,
+      t2: c.white,
+      t3: c.comment,
+      t4: c.comment,
+      accent: c.cyan,
+      "accent-ink": c.cyan,
+      // Tern paints white labels on these fills, so use dark palette blends.
+      "accent-fill": fade(c.cyan, c.bg, 0.4),
+      a1: c.cyan,
+      a2: c.blue,
+      "grad-ink": c.bg,
+      ok: c.green,
+      "ok-fill": fade(c.green, c.bg, 0.4),
+      bad: c.red,
+      "bad-fill": fade(c.red, c.bg, 0.4),
+      warn: c.yellow,
+      live: c.magenta,
+      "live-fill": fade(c.magenta, c.bg, 0.4),
+      "tk-comment": c.comment,
+      "tk-doc": c.comment,
+      "tk-keyword": c.magenta,
+      "tk-function": c.blue,
+      "tk-macro": c.magenta,
+      "tk-variable": c.fg,
+      "tk-property": c.cyan,
+      "tk-string": c.green,
+      "tk-escape": c.cyan,
+      "tk-number": c.yellow,
+      "tk-constant": c.yellow,
+      "tk-type": c.cyan,
+      "tk-tag": c.magenta,
+      "tk-heading": c.magenta,
+      "tk-link": c.cyan,
+      "tk-operator": c.white,
+      "tk-punct": c.white,
+      "tk-inserted": c.green,
+      "tk-deleted": c.red,
+    };
+    return [
+      "/* Generated from palette.js. Run node scripts/export-themes.cjs to update. */",
+      ":root {",
+      "  color-scheme: dark;",
+      ...Object.entries(colors).map(([key, value]) => `  --${key}: ${value};`),
+      ...p.ansi.map((color, index) => `  --ansi${index}: ${color};`),
+      "}",
+      "",
+      "#sidebar {",
+      "  background-color: var(--card);",
+      "}",
+      "",
+    ].join("\n");
+  }
+
   function serializeOrcaTerminal(p) {
     const names = [
       "black", "red", "green", "yellow", "blue", "magenta", "cyan", "white",
@@ -267,7 +338,7 @@
 
   const api = {
     palette, references, ansiNames, contrast, oklch, separation, fade, serialize,
-    neovimColors, serializeNeovim, serializeOrcaTerminal, serializeOrcaApp,
+    neovimColors, serializeNeovim, serializeTern, serializeOrcaTerminal, serializeOrcaApp,
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else globalThis.Stillwater = api;
