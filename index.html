@@ -164,7 +164,7 @@ lrwxr-xr-x  <span class="cyan">latest</span> -&gt; dist/v2
 
     <section id="import" aria-labelledby="import-heading">
       <h2 id="import-heading">Install Stillwater</h2>
-      <p>The theme file uses Ghostty’s format and sets terminal colors only. It leaves fonts, opacity, and key bindings alone. Neovim gets its own colorscheme. Orca gets a plugin for its interface, editor, and terminals.</p>
+      <p>The theme file uses Ghostty’s format and sets terminal colors only. It leaves fonts, opacity, and key bindings alone. Neovim gets its own colorscheme. Orca gets a plugin for its interface, editor, and terminals. Tern gets a CSS theme.</p>
       <div class="downloads">
         <a class="download" href="themes/Stillwater" download="Stillwater">Save Stillwater <span>Ghostty theme file</span></a>
       </div>
@@ -172,6 +172,11 @@ lrwxr-xr-x  <span class="cyan">latest</span> -&gt; dist/v2
       <p>Copy the file into your themes folder, then add <code>theme = Stillwater</code> to your Ghostty config.</p>
       <pre class="commands" tabindex="0" aria-label="Ghostty install commands"><code>mkdir -p ~/.config/ghostty/themes
 cp themes/Stillwater ~/.config/ghostty/themes/</code></pre>
+      <h3>Tern</h3>
+      <p>Copy <code>themes/tern/Stillwater.css</code> into Tern’s themes folder. On macOS, run this from the repo directory:</p>
+      <pre class="commands" tabindex="0" aria-label="Tern install commands"><code>mkdir -p "$HOME/Library/Application Support/Tern/themes"
+cp themes/tern/Stillwater.css "$HOME/Library/Application Support/Tern/themes/"</code></pre>
+      <p>In <strong>Settings → Appearance</strong>, use Dark appearance and select <strong>Stillwater</strong>. No plugin or restart is needed. Fonts and key bindings stay unchanged. See <a href="README.md#tern">the Tern notes</a> for other configuration paths and limits.</p>
       <h3>Orca</h3>
       <p>Requires Orca 1.4.246 or later. Clone or download the whole repo, then run these commands from its directory. The plugin supplies colors only; it runs no code.</p>
       <pre class="commands" tabindex="0" aria-label="Orca plugin commands"><code>orca plugin validate . --json

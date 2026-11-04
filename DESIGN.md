@@ -115,6 +115,10 @@ The Orca plugin extends the same palette to app surfaces and code. The canvas st
 
 Syntax follows the Neovim roles: comments use ANSI 8, strings mint, constants sand, keywords orchid, functions periwinkle, and types frost. Diff and Git colors retain the palette's semantic roles. The plugin changes colors only, with no fonts, layout, background image, or executable code. All exported values come from `palette.js`.
 
+## Tern
+
+The CSS theme uses the same ground, raised surfaces, text, ANSI colors, orchid cursor, and slate selection fill. The tabs and sessions sidebar uses the raised surface to separate it from the terminal ground. Cyan marks interface focus and links. Code uses the Neovim syntax roles. Filled controls use darker palette blends so their white labels stay readable. Tern keeps its selection-text behavior and any native omp chat tokens not set by the theme. The export changes colors only; fonts, layout, and key bindings stay unchanged. All values come from `palette.js`.
+
 ## Typography
 
 System sans is the reading face and heading face. System monospace is reserved for code, hex values, paths, and contrast ratios. This keeps all fonts local.

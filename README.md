@@ -1,6 +1,6 @@
 # Stillwater
 
-A quiet, dark theme for terminals, Neovim, and Orca, made for long sessions and blended from [Nord](https://www.nordtheme.com/) and [Dracula](https://draculatheme.com/).
+A quiet, dark theme for terminals, Neovim, Orca, and Tern, made for long sessions and blended from [Nord](https://www.nordtheme.com/) and [Dracula](https://draculatheme.com/).
 
 ![Stillwater showing a git diff and test output](docs/terminal.png)
 
@@ -14,7 +14,7 @@ A quiet, dark theme for terminals, Neovim, and Orca, made for long sessions and 
 
 ## Install
 
-Ghostty and Rex use one [Ghostty-format](https://ghostty.org/docs/features/theme) file, [`themes/Stillwater`](themes/Stillwater). Neovim and Orca use the plugins in this repo. These themes leave fonts, opacity, and key bindings alone.
+Ghostty and Rex use one [Ghostty-format](https://ghostty.org/docs/features/theme) file, [`themes/Stillwater`](themes/Stillwater). Neovim and Orca use the plugins in this repo. Tern uses [`themes/tern/Stillwater.css`](themes/tern/Stillwater.css). These themes leave fonts, opacity, and key bindings alone.
 
 ### Ghostty
 
@@ -38,6 +38,23 @@ rex -C CLIENT do client.theme.import path="$PWD/themes/Stillwater"
 ```
 
 Importing also selects the theme, so note your current one first. To switch back, use **Change Theme…** in the command palette.
+
+### Tern
+
+Tern uses a CSS theme, with no plugin or omp install needed. Tested with **Tern 0.9.11**. From this repo on macOS:
+
+```sh
+mkdir -p "$HOME/Library/Application Support/Tern/themes"
+cp themes/tern/Stillwater.css "$HOME/Library/Application Support/Tern/themes/"
+```
+
+For other systems or a custom `TERN_CONFIG_DIR`, use the **Themes folder** shown in **Settings → Advanced**. The `themes` folder sits beside `settings.json`; create it if needed.
+
+In **Settings → Appearance**, use **Dark** appearance and select **Stillwater** as the theme. You can also use **Change theme…** (⌃⌘T on macOS). Tern watches the folder, so no restart is needed. Copying the file does not select it or change your other settings.
+
+The theme sets terminal, interface, and code syntax colors. It preserves all 16 ANSI colors, the orchid cursor, and the slate selection fill. Tern has no documented CSS token for selection text, so selected text keeps Tern's behavior. Native omp chat tokens and other app-specific colors not set by this file keep Tern's defaults.
+
+To remove it, select your previous theme, then delete `Stillwater.css` from the themes folder. See [Tern's theme guide](https://docs.stencil.so/tern/guides/themes.html) for the format.
 
 ### Orca
 
@@ -140,7 +157,7 @@ Open `index.html` in a browser for live specimens, every swatch, the full contra
 
 ## Development
 
-`palette.js` is the source of truth. `themes/Stillwater`, `themes/orca/*.json`, and `lua/stillwater/palette.lua` are generated from it, so don't edit those files by hand. Neovim highlight groups live in `lua/stillwater/highlights.lua`. Keep the default colors in `guide.css` in sync; the tests check them.
+`palette.js` is the source of truth. `themes/Stillwater`, `themes/orca/*.json`, `themes/tern/Stillwater.css`, and `lua/stillwater/palette.lua` are generated from it, so don't edit those files by hand. Neovim highlight groups live in `lua/stillwater/highlights.lua`. Keep the default colors in `guide.css` in sync; the tests check them.
 
 ```sh
 node scripts/export-themes.cjs  # regenerate the theme files
@@ -148,6 +165,8 @@ node --test tests/*.test.cjs    # needs Node.js 18 or later
 ```
 
 The tests reject stale exports, contrast regressions, flattened accent lightness, and accents that merge under simulated color-vision deficiency. Orca tests also check all 22 terminal colors, app text and focus pairs, selection and diff tints, and syntax roles. If `nvim` is installed, they also load the colorscheme headlessly and check the contrast of its resolved highlights.
+
+Tern tests check the generated CSS, ANSI and cursor values, selection fill, interface text, syntax roles, and white text on filled controls. Before release, load the CSS in Tern and check the terminal, theme picker, settings, code, and selections; text tests do not prove the rendered result.
 
 With Orca installed, also run `orca plugin validate . --json` and `orca plugin inspect . --json`. These check the plugin without loading it or changing your theme. Before release, check the app, editor, terminal, menus, selections, and diffs in Orca; schema and contrast checks do not prove the rendered result.
 

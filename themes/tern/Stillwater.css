@@ -1,0 +1,75 @@
+/* Generated from palette.js. Run node scripts/export-themes.cjs to update. */
+:root {
+  color-scheme: dark;
+  --tv-bg: #1f222e;
+  --tv-fg: #dfe3ed;
+  --tv-cur: #ec8ac7;
+  --tv-cur-ink: #1f222e;
+  --tv-sel: #464d66;
+  --tv-sel-a: #464d66;
+  --tv-sel-b: #464d66;
+  --page: #1f222e;
+  --panel: #1f222e;
+  --card: #2b303f;
+  --raise: #2b303f;
+  --pop-bg: #2b303f;
+  --code-bg: #1f222e;
+  --tbl-head: #2b303f;
+  --ink: #dfe3ed;
+  --t1: #dfe3ed;
+  --t2: #d5d9e4;
+  --t3: #9da5bf;
+  --t4: #9da5bf;
+  --accent: #74cde2;
+  --accent-ink: #74cde2;
+  --accent-fill: #416676;
+  --a1: #74cde2;
+  --a2: #8994e5;
+  --grad-ink: #1f222e;
+  --ok: #70d689;
+  --ok-fill: #3f6a52;
+  --bad: #ec7368;
+  --bad-fill: #714245;
+  --warn: #eec96e;
+  --live: #ec8ac7;
+  --live-fill: #714c6b;
+  --tk-comment: #9da5bf;
+  --tk-doc: #9da5bf;
+  --tk-keyword: #ec8ac7;
+  --tk-function: #8994e5;
+  --tk-macro: #ec8ac7;
+  --tk-variable: #dfe3ed;
+  --tk-property: #74cde2;
+  --tk-string: #70d689;
+  --tk-escape: #74cde2;
+  --tk-number: #eec96e;
+  --tk-constant: #eec96e;
+  --tk-type: #74cde2;
+  --tk-tag: #ec8ac7;
+  --tk-heading: #ec8ac7;
+  --tk-link: #74cde2;
+  --tk-operator: #d5d9e4;
+  --tk-punct: #d5d9e4;
+  --tk-inserted: #70d689;
+  --tk-deleted: #ec7368;
+  --ansi0: #2b303f;
+  --ansi1: #ec7368;
+  --ansi2: #70d689;
+  --ansi3: #eec96e;
+  --ansi4: #8994e5;
+  --ansi5: #ec8ac7;
+  --ansi6: #74cde2;
+  --ansi7: #d5d9e4;
+  --ansi8: #9da5bf;
+  --ansi9: #f38a7f;
+  --ansi10: #89de9c;
+  --ansi11: #f6da8e;
+  --ansi12: #a2a9ee;
+  --ansi13: #f5a3d4;
+  --ansi14: #95dded;
+  --ansi15: #eef0f6;
+}
+
+#sidebar {
+  background-color: var(--card);
+}
