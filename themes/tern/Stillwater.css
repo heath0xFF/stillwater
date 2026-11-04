@@ -73,3 +73,14 @@
 #sidebar {
   background-color: var(--card);
 }
+
+/* shortcut: .tn-div is internal to Tern; recheck after layout changes. */
+.tn-div::before {
+  display: block;
+  background: #777e94;
+}
+
+.tn-div:hover::before,
+.tn-div.dragging::before {
+  background: var(--accent);
+}

@@ -245,6 +245,98 @@
       "  background-color: var(--card);",
       "}",
       "",
+      "/* shortcut: .tn-div is internal to Tern; recheck after layout changes. */",
+      ".tn-div::before {",
+      "  display: block;",
+      `  background: ${c.line_nr};`,
+      "}",
+      "",
+      ".tn-div:hover::before,",
+      ".tn-div.dragging::before {",
+      "  background: var(--accent);",
+      "}",
+      "",
+    ].join("\n");
+  }
+
+  function serializeHunk(p) {
+    const c = neovimColors(p);
+    const selected = fade(c.blue, c.bg, 0.1);
+    const colors = {
+      background: c.bg,
+      panel: c.surface,
+      panelAlt: c.surface,
+      border: c.selection,
+      accent: c.cyan,
+      accentMuted: selected,
+      text: c.fg,
+      muted: c.comment,
+      addedBg: fade(c.green, c.bg, 0.08),
+      removedBg: fade(c.red, c.bg, 0.08),
+      movedAddedBg: fade(c.blue, c.bg, 0.08),
+      movedRemovedBg: fade(c.magenta, c.bg, 0.08),
+      contextBg: c.bg,
+      // Dark word fills keep syntax readable and clear Hunk's emphasis threshold.
+      addedContentBg: fade(c.green, "#000000", 0.18),
+      removedContentBg: fade(c.red, "#000000", 0.18),
+      contextContentBg: c.bg,
+      addedSignColor: c.green,
+      removedSignColor: c.red,
+      lineNumberBg: c.bg,
+      lineNumberFg: c.comment,
+      selectedHunk: selected,
+      badgeAdded: c.green,
+      badgeRemoved: c.red,
+      badgeNeutral: c.comment,
+      fileNew: c.green,
+      fileDeleted: c.red,
+      fileRenamed: c.blue,
+      fileModified: c.yellow,
+      fileUntracked: c.cyan,
+      noteBorder: c.magenta,
+      noteBackground: c.surface,
+      noteTitleBackground: c.surface,
+      noteTitleText: c.magenta,
+    };
+    const scopes = [
+      [c.fg, ["source", "text", "variable", "variable.other", "variable.parameter.function",
+        "meta.jsx.children", "meta.block", "meta.tag.attributes", "meta.object.member",
+        "meta.embedded.expression", "markup.bold", "markup.italic"]],
+      [c.comment, ["comment", "punctuation.definition.comment", "string.comment"]],
+      [c.green, ["string", "punctuation.definition.string", "markup.inline.raw", "markup.quote",
+        "markup.inserted", "meta.diff.header.to-file", "punctuation.definition.inserted"]],
+      [c.yellow, ["constant", "constant.character", "constant.other.placeholder", "entity.name.constant",
+        "variable.other.constant", "variable.other.enummember", "support.constant",
+        "markup.changed", "punctuation.definition.changed"]],
+      [c.magenta, ["keyword", "storage", "storage.type", "storage.type.java", "storage.modifier.package",
+        "storage.modifier.import", "variable.language", "entity.name.tag", "support.class.component",
+        "markup.heading", "markup.heading entity.name"]],
+      [c.blue, ["entity.name.function", "support.function", "variable.function"]],
+      [c.cyan, ["entity", "entity.name", "entity.name.type", "entity.name.class", "support",
+        "support.type", "support.class", "entity.other.attribute-name", "meta.property-name",
+        "support.type.property-name.json", "variable.other.property", "support.variable",
+        "constant.character.escape", "string variable", "source.regexp", "string.regexp",
+        "string.regexp.character-class", "string.regexp constant.character.escape",
+        "string.regexp source.ruby.embedded", "string.regexp string.regexp.arbitrary-repitition",
+        "constant.other.reference.link", "string.other.link", "markup.underline.link",
+        "meta.module-reference", "meta.diff.header", "meta.separator", "meta.output"]],
+      [c.fg, ["meta.export.default", "meta.definition.variable", "string punctuation.section.embedded source"]],
+      [c.white, ["keyword.operator", "punctuation", "punctuation.section.embedded",
+        "punctuation.definition.list.begin.markdown"]],
+      [c.red, ["invalid", "invalid.broken", "invalid.deprecated", "invalid.illegal", "invalid.unimplemented",
+        "message.error", "markup.deleted", "meta.diff.header.from-file", "punctuation.definition.deleted"]],
+    ];
+    return [
+      "# Generated from palette.js. Run node scripts/export-themes.cjs to update.",
+      "# Merge these tables into your Hunk config; select with --theme stillwater.",
+      "[themes.stillwater]",
+      'base = "github-dark-default"',
+      `label = ${JSON.stringify(p.name)}`,
+      ...Object.entries(colors).map(([key, value]) => `${key} = "${value}"`),
+      "",
+      "[themes.stillwater.syntax_scopes]",
+      ...scopes.flatMap(([color, names]) => names.map((scope) => `"${scope}" = "${color}"`)),
+      "",
     ].join("\n");
   }
 
@@ -338,7 +430,7 @@
 
   const api = {
     palette, references, ansiNames, contrast, oklch, separation, fade, serialize,
-    neovimColors, serializeNeovim, serializeTern, serializeOrcaTerminal, serializeOrcaApp,
+    neovimColors, serializeNeovim, serializeTern, serializeHunk, serializeOrcaTerminal, serializeOrcaApp,
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else globalThis.Stillwater = api;

@@ -1,6 +1,6 @@
 # Stillwater
 
-A quiet, dark theme for terminals, Neovim, Orca, and Tern, made for long sessions and blended from [Nord](https://www.nordtheme.com/) and [Dracula](https://draculatheme.com/).
+A quiet, dark theme for terminals, Neovim, Orca, Tern, and Hunk, made for long sessions and blended from [Nord](https://www.nordtheme.com/) and [Dracula](https://draculatheme.com/).
 
 ![Stillwater showing a git diff and test output](docs/terminal.png)
 
@@ -14,7 +14,7 @@ A quiet, dark theme for terminals, Neovim, Orca, and Tern, made for long session
 
 ## Install
 
-Ghostty and Rex use one [Ghostty-format](https://ghostty.org/docs/features/theme) file, [`themes/Stillwater`](themes/Stillwater). Neovim and Orca use the plugins in this repo. Tern uses [`themes/tern/Stillwater.css`](themes/tern/Stillwater.css). These themes leave fonts, opacity, and key bindings alone.
+Ghostty and Rex use one [Ghostty-format](https://ghostty.org/docs/features/theme) file, [`themes/Stillwater`](themes/Stillwater). Neovim and Orca use the plugins in this repo. Tern uses [`themes/tern/Stillwater.css`](themes/tern/Stillwater.css). Hunk uses [`themes/hunk/stillwater.toml`](themes/hunk/stillwater.toml). These themes leave fonts, opacity, and key bindings alone.
 
 ### Ghostty
 
@@ -52,9 +52,27 @@ For other systems or a custom `TERN_CONFIG_DIR`, use the **Themes folder** shown
 
 In **Settings → Appearance**, use **Dark** appearance and select **Stillwater** as the theme. You can also use **Change theme…** (⌃⌘T on macOS). Tern watches the folder, so no restart is needed. Copying the file does not select it or change your other settings.
 
-The theme sets terminal, interface, and code syntax colors. It preserves all 16 ANSI colors, the orchid cursor, and the slate selection fill. Tern has no documented CSS token for selection text, so selected text keeps Tern's behavior. Native omp chat tokens and other app-specific colors not set by this file keep Tern's defaults.
+The theme sets terminal, interface, and code syntax colors. It shows a one-pixel separator between split panes, including Tiles and Islands layouts, with cyan on hover or drag. Pane sizes and resize targets stay unchanged. It preserves all 16 ANSI colors, the orchid cursor, and the slate selection fill. Tern has no documented CSS token for selection text, so selected text keeps Tern's behavior. Native omp chat tokens and other app-specific colors not set by this file keep Tern's defaults.
 
 To remove it, select your previous theme, then delete `Stillwater.css` from the themes folder. See [Tern's theme guide](https://docs.stencil.so/tern/guides/themes.html) for the format.
+
+### Hunk
+
+Checked with **Hunk 0.24.1**. Open your Hunk config: `$XDG_CONFIG_HOME/hunk/config.toml` if `XDG_CONFIG_HOME` is set, otherwise `~/.config/hunk/config.toml`.
+
+1. Back up the config, or create the directory and file if they do not exist.
+2. Copy both tables from [`themes/hunk/stillwater.toml`](themes/hunk/stillwater.toml) to the end of the config. If it already has `[themes.stillwater]` tables, replace those tables instead; duplicate TOML tables are invalid. Do not replace your whole config.
+3. Preview it for one run:
+
+   ```sh
+   hunk diff --theme stillwater
+   ```
+
+To make it the default, set `theme = "stillwater"` **above all table headers**, replacing any existing top-level `theme` line. You can also press **t** in Hunk or use **View → Themes…** to select **Stillwater**. Restart Hunk after editing its config. Repository and command-specific settings can override the default; the CLI flag takes priority.
+
+The theme sets all documented interface, diff, file-status, and note colors. Faint line tints and darker word-change fills keep syntax readable. It uses Shiki/TextMate scope overrides over `github-dark-default`; unlisted scopes and font styles still inherit from that base. This is not an ANSI terminal theme and does not set your terminal cursor. If transparent backgrounds are enabled, use `--no-transparent-bg` to see the exact Stillwater surfaces.
+
+To remove it, select your previous theme, then remove both Stillwater tables. See [Hunk's theme guide](https://www.hunk.dev/docs/configure/themes/) and [config reference](https://www.hunk.dev/docs/reference/config/#named-themes).
 
 ### Orca
 
@@ -80,6 +98,7 @@ For terminal colors only, no plugin is needed: use **Settings → Terminal → I
 Orca limits:
 
 - The editor cursor and focus ring share orchid. Editor selection is an orchid tint; it cannot use the terminal's exact selection colors.
+- Orca 1.4.248 lightens the chat canvas by mixing in 5% foreground. Its theme API cannot set that canvas separately. **Settings → Appearance → Chat → Match Terminal Interface** uses the terminal's exact background, but also matches its font, text sizes, and contrast. Leave this off to keep separate chat typography.
 - Sidebar and chat settings that match the terminal can override app-theme colors. Trust dialogs keep Orca's own colors.
 - Syntax uses Orca's supported TextMate scopes. It is not a full VS Code or Neovim highlight-group import.
 
@@ -157,7 +176,7 @@ Open `index.html` in a browser for live specimens, every swatch, the full contra
 
 ## Development
 
-`palette.js` is the source of truth. `themes/Stillwater`, `themes/orca/*.json`, `themes/tern/Stillwater.css`, and `lua/stillwater/palette.lua` are generated from it, so don't edit those files by hand. Neovim highlight groups live in `lua/stillwater/highlights.lua`. Keep the default colors in `guide.css` in sync; the tests check them.
+`palette.js` is the source of truth. `themes/Stillwater`, `themes/orca/*.json`, `themes/tern/Stillwater.css`, `themes/hunk/stillwater.toml`, and `lua/stillwater/palette.lua` are generated from it, so don't edit those files by hand. Neovim highlight groups live in `lua/stillwater/highlights.lua`. Keep the default colors in `guide.css` in sync; the tests check them.
 
 ```sh
 node scripts/export-themes.cjs  # regenerate the theme files
@@ -166,7 +185,9 @@ node --test tests/*.test.cjs    # needs Node.js 18 or later
 
 The tests reject stale exports, contrast regressions, flattened accent lightness, and accents that merge under simulated color-vision deficiency. Orca tests also check all 22 terminal colors, app text and focus pairs, selection and diff tints, and syntax roles. If `nvim` is installed, they also load the colorscheme headlessly and check the contrast of its resolved highlights.
 
-Tern tests check the generated CSS, ANSI and cursor values, selection fill, interface text, syntax roles, and white text on filled controls. Before release, load the CSS in Tern and check the terminal, theme picker, settings, code, and selections; text tests do not prove the rendered result.
+Tern tests check the generated CSS, ANSI and cursor values, selection fill, interface text, syntax roles, white text on filled controls, and split-divider visibility and contrast. Divider rules use Tern's internal `.tn-div` selector; recheck them after Tern layout changes. Before release, load the CSS in Tern and check the terminal, theme picker, settings, code, and selections; text tests do not prove the rendered result.
+
+Hunk tests check the generated TOML, all documented semantic colors, syntax roles, text contrast on diff and selected-row backgrounds, and word-change separation. Before release, check the theme in Hunk with code, diffs, menus, and notes; inherited grammar-specific scopes can still differ from the overrides.
 
 With Orca installed, also run `orca plugin validate . --json` and `orca plugin inspect . --json`. These check the plugin without loading it or changing your theme. Before release, check the app, editor, terminal, menus, selections, and diffs in Orca; schema and contrast checks do not prove the rendered result.
 

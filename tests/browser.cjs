@@ -60,12 +60,14 @@ const { palette } = require("../palette.js");
       await page.locator("summary").click();
       await page.locator('nav a[href="#import"]').click();
       assert.equal(new URL(page.url()).hash, "#import");
-      const link = page.locator(`a[download="${palette.file}"]`);
-      const [download] = await Promise.all([page.waitForEvent("download"), link.click()]);
-      assert.equal(download.suggestedFilename(), palette.file);
-      assert.equal(await download.failure(), null);
-      assert.equal(fs.readFileSync(await download.path(), "utf8"),
-        fs.readFileSync(path.join(__dirname, "../themes", palette.file), "utf8"));
+      for (const [filename, file] of [[palette.file, palette.file], ["stillwater.toml", "hunk/stillwater.toml"]]) {
+        const link = page.locator(`a[download="${filename}"]`);
+        const [download] = await Promise.all([page.waitForEvent("download"), link.click()]);
+        assert.equal(download.suggestedFilename(), filename);
+        assert.equal(await download.failure(), null);
+        assert.equal(fs.readFileSync(await download.path(), "utf8"),
+          fs.readFileSync(path.join(__dirname, "../themes", file), "utf8"));
+      }
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, name);
       await page.evaluate(() => { history.replaceState(null, "", location.pathname); window.scrollTo(0, 0); });
       if (name !== "narrow") {

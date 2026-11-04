@@ -117,7 +117,11 @@ Syntax follows the Neovim roles: comments use ANSI 8, strings mint, constants sa
 
 ## Tern
 
-The CSS theme uses the same ground, raised surfaces, text, ANSI colors, orchid cursor, and slate selection fill. The tabs and sessions sidebar uses the raised surface to separate it from the terminal ground. Cyan marks interface focus and links. Code uses the Neovim syntax roles. Filled controls use darker palette blends so their white labels stay readable. Tern keeps its selection-text behavior and any native omp chat tokens not set by the theme. The export changes colors only; fonts, layout, and key bindings stay unchanged. All values come from `palette.js`.
+The CSS theme uses the same ground, raised surfaces, text, ANSI colors, orchid cursor, and slate selection fill. The tabs and sessions sidebar uses the raised surface to separate it from the terminal ground. Cyan marks interface focus and links. Code uses the Neovim syntax roles. Filled controls use darker palette blends so their white labels stay readable. Tern keeps its selection-text behavior and any native omp chat tokens not set by the theme. Split panes use Tern's native one-pixel divider in the derived line-number color, with cyan on hover and drag. The theme makes that divider visible even in layouts that hide it by default. Fonts, pane geometry, resize targets, and key bindings stay unchanged. All values come from `palette.js`.
+
+## Hunk
+
+The named TOML theme keeps the indigo-slate ground and raised panels. Cyan marks active controls; orchid marks note borders and titles. Diff lines use faint mint and coral tints. Changed words use darker fills, so syntax stays readable while the fills remain distinct enough for Hunk's emphasis threshold. Moved lines use periwinkle and orchid tints. Selected rows use a faint periwinkle fill rather than the terminal selection slate to keep syntax readable. TextMate overrides follow the same syntax roles as Neovim; unlisted scopes and font styles inherit from the GitHub Dark Default base. The theme changes no terminal colors, fonts, layout, or key bindings. All values come from `palette.js`.
 
 ## Typography
 

@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const { palette: stillwater, references, ansiNames, contrast, oklch, separation, fade, serialize } = globalThis.Stillwater;
+  const { palette: stillwater, references, ansiNames, contrast, oklch, separation, fade, serialize, serializeHunk } = globalThis.Stillwater;
   const roles = [
     ["Background", "background"], ["Foreground", "foreground"],
     ["Raised surface / ANSI 0", "surface"], ["Comments / ANSI 8", "comments"],
@@ -125,8 +125,10 @@
   }
 
   // Blob downloads work offline where browsers block file-to-file downloads.
-  const file = new Blob([serialize(stillwater)], { type: "application/octet-stream" });
-  document.querySelector(`a[download="${stillwater.file}"]`).href = URL.createObjectURL(file);
+  for (const [name, content] of [[stillwater.file, serialize(stillwater)], ["stillwater.toml", serializeHunk(stillwater)]]) {
+    const file = new Blob([content], { type: "application/octet-stream" });
+    document.querySelector(`a[download="${name}"]`).href = URL.createObjectURL(file);
+  }
 
   for (const palette of [references.nord, stillwater, references.dracula]) {
     const sample = document.createElement("article");

@@ -7,7 +7,7 @@ const css = serializeTern(palette);
 const colors = Object.fromEntries([...css.matchAll(/--([\w-]+): (#[0-9a-f]{6});/g)]
   .map((match) => [match[1], match[2]]));
 
-test("Tern export is current, self-contained, and changes only colors", () => {
+test("Tern export is current, self-contained, and preserves pane geometry", () => {
   assert.equal(fs.readFileSync(path.join(__dirname, "../themes/tern/Stillwater.css"), "utf8"), css);
   assert.match(css, /:root \{\n  color-scheme: dark;/);
   assert.doesNotMatch(css, /@import|url\(|font|opacity|padding/);
@@ -24,6 +24,15 @@ test("Tern sidebar is distinct from the terminal with readable labels", () => {
   for (const key of ["t1", "t2", "t3", "t4"]) {
     assert.ok(contrast(colors[key], colors.card) >= 4.5, key);
   }
+});
+
+test("Tern split dividers are visible without changing their resize targets", () => {
+  const divider = css.match(/\.tn-div::before \{\n  display: block;\n  background: (#[0-9a-f]{6});\n\}/);
+  assert.ok(divider, "show the native divider, including tiles and islands");
+  assert.ok(contrast(divider[1], palette.background) >= 3, "divider on terminal ground");
+  assert.ok(contrast(divider[1], palette.surface) >= 3, "divider on raised surface");
+  assert.match(css, /\.tn-div:hover::before,\n\.tn-div\.dragging::before \{\n  background: var\(--accent\);\n\}/);
+  assert.doesNotMatch(css, /(?:width|height|padding|margin|pointer-events|z-index):/);
 });
 
 test("Tern preserves ANSI, cursor, and selection background colors", () => {
